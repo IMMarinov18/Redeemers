@@ -67,7 +67,110 @@ void RemoveOrder(ORDER* orders, int& size, int index)
 //presentation
 /*******************/
 
+void ShowAllOrders(ORDER* orders, int& size)
+{
+	 
+	cout << "\nList of all the orders: \n";
+	cout << "Choose an order by its number.\n\n";
+	for (int i = 0; i < size; i++)
+	{
+		cout << " " << i + 1 << orders[i].Food<< " , " << orders[i].Name << " , " << orders[i].Address << " , " << orders[i].Specification << " , " << orders[i].price << " - ";
+		if (orders[i].bought)
+		{
+			cout << "bought  " << endl;
+		}
+		else
+		{
+			cout << "free  " << endl;
+		}
 
+	}
+}
+
+
+void EnterOrderDetails(ORDER* orders, int& size)
+{
+	cout << "OK, now enter your game data in this order:\n Name; Address; Specification; price " << endl;
+	string food, name, address, specification;
+	float  price;
+	cin  >> food >> name >> address >> specification >> price;
+	if (Create(orders, size, food , name, address, specification, price))
+	{
+		cout << "Successfully purchased! " << endl;
+	}
+	else
+	{
+		cout << "Sorry, you don't have enough money!" << endl << "Try adding some more! " << endl;
+	}
+
+}
+
+bool MainMenu(ORDER* orders, int& size)
+{
+	int index = 1;
+	cout << "\nList: \n 1.Add money to your wallet.\n 2.See your balance.\n 3.Make an order. \n 4.Go to the cart . \n 5.Return an order. \n 6.Quit \n\n";
+
+
+	int n;
+	cin >> n;
+	switch (n)
+	{
+		{
+	case 1:
+	{
+		int newMoney;
+		cout << "How much money do you want to add?" << endl << "Add:";
+		cin >> newMoney;
+		wallet = newMoney + wallet;
+		cout << "Money added!" << endl << endl;
+	}
+	case 2:
+	{
+		cout << "Your balance is " << wallet << "$ !" << endl;
+		return true;
+	}
+	case 3:
+	{
+		EnterOrderDetails(orders, size);
+		return true;
+	}
+
+
+	case 4:
+	{
+		ShowAllOrders(orders, size);
+		return true;
+	}
+	case 5:
+	{
+		cout << "Choose what you wish to return:";
+		ShowAllOrders(orders, size);
+		RemoveOrder(orders, size, index);
+		return true;
+	}
+	case 6:
+	{
+		return false;
+	}
+	default:
+	{
+		cout << "Error. Please enter again." << endl;
+		return true;
+	}
+
+		}
+	}
+}
+
+
+
+void Greetings()
+{
+	string hello = "Hello!\nWelcome to !\nChoose an option from the main menu down below. \n\n";
+	cout << hello;
+}
+
+/*******************/
 
 
 int main()
