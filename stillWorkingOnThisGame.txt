@@ -1,0 +1,158 @@
+
+#include <iostream>     // cout
+#include <algorithm>    // random_shuffle
+#include <vector>       // vector
+#include <ctime>        // time
+#include <cstdlib>      // rand, std::srand
+#include <Windows.h>    //fot the timer
+#include <string>
+using namespace std;
+
+
+string mixUp(string scrambleWord)//built in function to randomly shuffle character is a string
+{
+	
+		random_shuffle(scrambleWord.begin(), scrambleWord.end());
+	
+
+		return scrambleWord;
+	
+}	
+int timer(int min,int sec)
+{
+	Sleep(1000);
+	while (min >= 1)
+	{
+		cout << "\rTime remaining to your delivery: " << min << " min" << flush;
+		Sleep(300000);
+		min--;
+	}
+	if (min == 0)
+	{
+		while (sec >= 1)
+		{
+			cout << "\rTime remaining to your delivery: " << sec << " sec" << flush;
+			Sleep(1000);
+			sec--;
+		}
+	}
+	if (sec == 0)
+	{
+		return false;
+	}
+}
+int main()
+{
+
+
+	int min = 5;
+	int sec = 60; //amount of seconds
+
+
+
+	
+	
+	do
+	{
+
+		int count = 1;
+
+		string guessWord;
+
+		string scrambleWord;
+
+		int points = 0;
+
+		int inThistimePoints = 0;
+
+		string gameWords[25] = { /*1*/"blue",/*2*/"ticket",/*3*/"exercise",/*4*/"orange",/*5*/"atom",/*6*/"chemistry",/*7*/"broadcast",/*8*/"carelessly",
+			/*9*/"demonstrate",/*10*/"generously",/*11*/"household",/*12*/"distinguish",/*13*/"embarrassment",/*14*/"independence",/*15*/"exhibitionism"
+			/*16*/"psychotomimetic",/*17*/"trichotillomania",/*18*/"omphaloskepsis",/*19*/"myrmecophilous",/*20*/"xenotransplantation",
+			/*21*/	"Antidisestablishmentarianism",/*22*/"Honorificabilitudinitatibus",/*23*/"Supercalifragilisticexpialidocious",
+			/*24*/"Pneumonoultramicroscopicsilicovolcanoconiosis" };//they start from zero so you need to "-" 1 if you use these index
+
+
+		for (int i = 0; i < 25; i++)
+		{
+
+			//scrambleWord = gameWords[i];
+			// mixUp(scrambleWord);
+
+			scrambleWord = mixUp(gameWords[i]);
+
+			cout << endl;
+
+			cout << "Guess the word:  ";
+
+			cout << scrambleWord << endl;
+
+			cout << "Enter your answear:";
+
+			cin >> guessWord;
+
+
+			while (count != 3 && guessWord != gameWords[i])
+			{
+				cout << "Try again" << endl;
+
+				count++;
+
+				cin >> guessWord;
+
+			}
+
+			if (i >= 8)
+			{
+				cout << "Level 2:" << endl;
+				inThistimePoints = 3;
+			}
+
+			if (i >= 12)
+			{
+				cout << "Level 3:" << endl;
+				inThistimePoints = 5;
+			}
+
+			if (i >= 14)
+			{
+				cout << "Level 4:" << endl;
+				inThistimePoints = 8;
+			}
+
+			if (i >= 20)
+			{
+				cout << "Level 5, now it will be hard than you think:" << endl;
+				inThistimePoints = 15;
+			}
+
+			if (gameWords[i] == guessWord)
+			{
+				cout << "Your answear is correct, good job!" << endl;
+				
+				inThistimePoints++;
+
+				points=points+inThistimePoints;
+
+				inThistimePoints = 0;
+
+			}
+
+			if (count == 3)
+			{
+				cout << "You Lose to many tries" << endl;
+
+				cout << "The mystery word is-->>" << gameWords[i] << endl;
+
+				timer(min, sec);
+			}
+
+		}
+
+	} while (timer(min, sec) == true);
+
+	if (timer(min, sec) == false)
+	{
+		cout << "Your delivery is here!" << endl;
+	}
+}
+
