@@ -41,19 +41,94 @@ int timer(int min,int sec)
 		return false;
 	}
 }
+
+void GameOfWords(int count, string guessWord, string scrambleWord, int points, int inThistimePoints,string gameWords[25])
+{
+
+	for (int i = 0; i < 25; i++)
+	{
+
+		//scrambleWord = gameWords[i];
+		// mixUp(scrambleWord);
+
+		scrambleWord = mixUp(gameWords[i]);
+
+		cout << endl;
+
+		cout << "Guess the word:  ";
+
+		cout << scrambleWord << endl;
+
+		cout << "Enter your answear:";
+
+		cin >> guessWord;
+
+
+		while (count != 3 && guessWord != gameWords[i])
+		{
+			cout << "Try again" << endl;
+
+			count++;
+
+			cin >> guessWord;
+
+		}
+
+		if (i >= 8)
+		{
+			cout << "Level 2:" << endl;
+			inThistimePoints = 3;
+		}
+
+		if (i >= 12)
+		{
+			cout << "Level 3:" << endl;
+			inThistimePoints = 5;
+		}
+
+		if (i >= 14)
+		{
+			cout << "Level 4:" << endl;
+			inThistimePoints = 8;
+		}
+
+		if (i >= 20)
+		{
+			cout << "Level 5, now it will be hard than you think:" << endl;
+			inThistimePoints = 15;
+		}
+
+		if (gameWords[i] == guessWord)
+		{
+			cout << "Your answear is correct, good job!" << endl;
+
+			inThistimePoints++;
+
+			points = points + inThistimePoints;
+
+			inThistimePoints = 0;
+
+		}
+
+		if (count == 3)
+		{
+			cout << "You Lose to many tries" << endl;
+
+			cout << "The mystery word is-->>" << gameWords[i] << endl;
+
+			
+		}
+
+	}
+
+}
+
 int main()
 {
 
 
 	int min = 5;
-	int sec = 60; //amount of seconds
-
-
-
-	
-	
-	do
-	{
+	int sec = 60; //amount of second
 
 		int count = 1;
 
@@ -71,88 +146,8 @@ int main()
 			/*21*/	"Antidisestablishmentarianism",/*22*/"Honorificabilitudinitatibus",/*23*/"Supercalifragilisticexpialidocious",
 			/*24*/"Pneumonoultramicroscopicsilicovolcanoconiosis" };//they start from zero so you need to "-" 1 if you use these index
 
-
-		for (int i = 0; i < 25; i++)
-		{
-
-			//scrambleWord = gameWords[i];
-			// mixUp(scrambleWord);
-
-			scrambleWord = mixUp(gameWords[i]);
-
-			cout << endl;
-
-			cout << "Guess the word:  ";
-
-			cout << scrambleWord << endl;
-
-			cout << "Enter your answear:";
-
-			cin >> guessWord;
-
-
-			while (count != 3 && guessWord != gameWords[i])
-			{
-				cout << "Try again" << endl;
-
-				count++;
-
-				cin >> guessWord;
-
-			}
-
-			if (i >= 8)
-			{
-				cout << "Level 2:" << endl;
-				inThistimePoints = 3;
-			}
-
-			if (i >= 12)
-			{
-				cout << "Level 3:" << endl;
-				inThistimePoints = 5;
-			}
-
-			if (i >= 14)
-			{
-				cout << "Level 4:" << endl;
-				inThistimePoints = 8;
-			}
-
-			if (i >= 20)
-			{
-				cout << "Level 5, now it will be hard than you think:" << endl;
-				inThistimePoints = 15;
-			}
-
-			if (gameWords[i] == guessWord)
-			{
-				cout << "Your answear is correct, good job!" << endl;
-				
-				inThistimePoints++;
-
-				points=points+inThistimePoints;
-
-				inThistimePoints = 0;
-
-			}
-
-			if (count == 3)
-			{
-				cout << "You Lose to many tries" << endl;
-
-				cout << "The mystery word is-->>" << gameWords[i] << endl;
-
-				timer(min, sec);
-			}
-
-		}
-
-	} while (timer(min, sec) == true);
-
-	if (timer(min, sec) == false)
-	{
-		cout << "Your delivery is here!" << endl;
-	}
+		GameOfWords(count, guessWord, scrambleWord, points, inThistimePoints, gameWords);
 }
+
+
 
