@@ -1,6 +1,3 @@
-// ConsoleApplication54.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 
 using namespace std;
@@ -17,15 +14,15 @@ struct ORDER {
 /*******************/
 int index = 1;
 float wallet = 0;
-bool Create(ORDER* orders, int& size, string food, string address, string name, string specification, float price)
+bool Create(ORDER* orders, int& size, string name, string food, string address, string specification, float price)
 {
 	if (size > 100)
 	{
 		return false;
 	}
-	orders[size].Address = address;
-	orders[size].Food = food;
 	orders[size].Name = name;
+	orders[size].Food = food;
+	orders[size].Address = address;
 	orders[size].Specification = specification;
 	orders[size++].price = price;
 	if (wallet >= price)
@@ -53,14 +50,14 @@ void RemoveOrder(ORDER* orders, int& size, int index)
 {
 	cout << "Choose which order you want to remove from the cart(write the number of the order) \n\n";
 	cin >> index;
+	wallet = wallet + orders[index - 1].price;
 	for (int i = index; i <= size; i++)
 	{
 		orders[i] = orders[i + 1];
 	}
-	size--;
-	
-	
 
+	size--;
+	cout << "Successfully deleted!" << endl;
 }
 /*******************/
 
@@ -69,38 +66,51 @@ void RemoveOrder(ORDER* orders, int& size, int index)
 
 void ShowAllOrders(ORDER* orders, int& size)
 {
-	 
+
 	cout << "\nList of all the orders: \n";
 	cout << "Choose an order by its number.\n\n";
 	for (int i = 0; i < size; i++)
 	{
-		cout << " " << i + 1 << orders[i].Food<< " , " << orders[i].Name << " , " << orders[i].Address << " , " << orders[i].Specification << " , " << orders[i].price << " - ";
-		if (orders[i].bought)
+		if (size >= 1)
 		{
-			cout << "bought  " << endl;
+			cout << " " << i + 1 << ": " << orders[i].Name << " , " << orders[i].Food << " , " << orders[i].Address << " , " << orders[i].Specification << " , " << orders[i].price << " - ";
+			if (orders[i].bought)
+			{
+				cout << "bought  " << endl;
+			}
+			else
+			{
+				cout << "free  " << endl;
+			}
 		}
-		else
+		else if (size == 0)
 		{
-			cout << "free  " << endl;
+			cout << "There are not any orders in your cart!" << endl;
 		}
-
 	}
 }
 
 
 void EnterOrderDetails(ORDER* orders, int& size)
 {
-	cout << "OK, now enter your game data in this order:\n Name; Address; Specification; price " << endl;
-	string food, name, address, specification;
+	string name, food, address, specification;
 	float  price;
-	cin  >> food >> name >> address >> specification >> price;
-	if (Create(orders, size, food , name, address, specification, price))
+	cout << "OK, now enter your data for this order:" << endl;
+	cout << "Enter name:"; cin >> name; cout << endl;
+	cout << "Enter food:"; cin >> food; cout << endl;
+	cout << "Enter address:"; cin >> address; cout << endl;
+	cout << "Enter specification:"; cin >> specification; cout << endl;
+	cout << "Enter price:"; cin >> price; cout << endl;
+
+
+
+	if (Create(orders, size, name, food, address, specification, price))
 	{
 		cout << "Successfully purchased! " << endl;
 	}
 	else
 	{
-		cout << "Sorry, you don't have enough money!" << endl << "Try adding some more! " << endl;
+		cout << "Sorry, you don't have enough money!" << "Try adding some more! " << endl;
 	}
 
 }
@@ -166,7 +176,7 @@ bool MainMenu(ORDER* orders, int& size)
 
 void Greetings()
 {
-	string hello = "Hello!\nWelcome to !\nChoose an option from the main menu down below. \n\n";
+	string hello = "Hello!\nWelcome to our online shop!\nChoose an option from the main menu down below. \n\n";
 	cout << hello;
 }
 
@@ -182,14 +192,3 @@ int main()
 	while (MainMenu(orders, size));
 	cout << quit;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
